@@ -50,12 +50,6 @@ parser.add_argument("--stride", type=int, default=1, help="Stride for sliding wi
 parser.add_argument("--device", type=str, default="cuda" if torch.cuda.is_available() else "cpu",
                     help="Device: cuda or cpu")
 
-# ---------------------------
-# MLP hyperparameters
-# ---------------------------
-parser.add_argument("--mlp_hidden_sizes", type=str, nargs="+", default="[128, 64]",
-                    help="Hidden layer sizes for MLP (space separated)")
-
 configs = parser.parse_args()
 
 # Set random seeds for reproducibility

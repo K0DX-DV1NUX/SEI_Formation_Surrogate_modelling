@@ -1,13 +1,10 @@
 #!/bin/sh
 
-model="MLP"
-hidden_sizes="128 64"
-
+model="GRU"
 
 python run_exp.py \
     --mode train \
     --model $model \
-    --mlp_hidden_sizes $hidden_sizes \
     --train_dir "Experiments/train" \
     --vali_dir "Experiments/vali" \
     --test_dir "Experiments/test" \

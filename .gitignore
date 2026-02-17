@@ -216,3 +216,7 @@ checkpoints/
 results/
 
 *.zip
+
+.vscode/*
+
+results.txt
