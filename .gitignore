@@ -211,5 +211,8 @@ Experiments/train/*.csv
 Experiments/test/*.csv
 Experiments/vali/*.csv
 
+plots/
+checkpoints/
+results/
 
 *.zip

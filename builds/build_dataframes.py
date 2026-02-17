@@ -73,19 +73,9 @@ class BuildDataframes:
             if col not in df_columns
         ]
 
-        extra_cols = [
-            col for col in df_columns
-            if col not in self.REQUIRED_COLUMNS
-        ]
-
         if missing_cols:
             raise ValueError(
                 f"File '{file_name}' is missing required columns: {missing_cols}"
-            )
-
-        if extra_cols:
-            raise ValueError(
-                f"File '{file_name}' has unexpected columns: {extra_cols}"
             )
 
 

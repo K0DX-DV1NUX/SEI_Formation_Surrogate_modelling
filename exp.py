@@ -19,14 +19,14 @@ class Exp:
         self.configs = configs
         self.device = torch.device(configs.device)
         self.checkpoint_dir = checkpoint_dir
-        os.makedirs(self.checkpoint_dir, exist_ok=True)
+        
 
         # ----------------------------
         # Load raw data
         # ----------------------------
-        train_dfs = BuildDataframes("Experiments/train").get_dataframes()
-        test_dfs  = BuildDataframes("Experiments/test").get_dataframes()
-        vali_dfs  = BuildDataframes("Experiments/vali").get_dataframes()
+        train_dfs = BuildDataframes(self.configs.train_dir).get_dataframes()
+        vali_dfs  = BuildDataframes(self.configs.vali_dir).get_dataframes()
+        test_dfs  = BuildDataframes(self.configs.test_dir).get_dataframes()
 
         # ----------------------------
         # Standardize (fit ONLY on train)
@@ -69,7 +69,7 @@ class Exp:
         # ----------------------------
         # Model
         # ----------------------------
-        self.model = self._load_model(configs.model).to(self.device)
+        self.model = self._load_model(self.configs.model).to(self.device)
 
         # ----------------------------
         # Optimizer
@@ -148,7 +148,8 @@ class Exp:
             print(f"Epoch {epoch}/{self.configs.epochs} | "
                   f"Train Loss: {train_loss:.6f} | "
                   f"Val Loss: {val_loss:.6f} | "
-                  f"LR: {self.optimizer.param_groups[0]['lr']:.6e}")
+                  f"LR: {self.optimizer.param_groups[0]['lr']:.6e} | "
+                  f"Patience Counter: {self.patience_counter}/{self.configs.patience}")
 
             # -------------------------
             # Early stopping
@@ -160,7 +161,7 @@ class Exp:
 
                 # save checkpoint
                 checkpoint_path = os.path.join(self.checkpoint_dir,
-                                               f"best_model_epoch{epoch}.pt")
+                                               f"best_model_epoch.pt")
                 torch.save({
                     'epoch': epoch,
                     'model_state_dict': self.best_model,
@@ -184,7 +185,7 @@ class Exp:
         # -------------------------
         # Evaluate on test set
         # -------------------------
-        preds, targets = self.test()  # already inverse transformed
+        preds, targets = self.test()
 
         # flatten if needed (batch, features)
         preds_flat = preds.reshape(-1, preds.shape[-1])
@@ -224,7 +225,7 @@ class Exp:
         for x, y in self.train_loader:
 
             x = x.to(self.device)
-            y = y.to(self.device)
+            y = torch.unsqueeze(y, 1).to(self.device)
 
             self.optimizer.zero_grad()
             pred = self.model(x)
@@ -257,7 +258,7 @@ class Exp:
     # =========================
     # Test
     # =========================
-    def test(self, checkpoint_path=None):
+    def test(self, checkpoint_path=None, inverse_transform=False):
 
         if checkpoint_path is not None:
             # load model from checkpoint
@@ -271,6 +272,7 @@ class Exp:
         with torch.no_grad():
             for x, y in self.test_loader:
                 x = x.to(self.device)
+                y = torch.unsqueeze(y, 1).to(self.device)
                 pred = self.model(x)
                 preds.append(pred.cpu().numpy())
                 targets.append(y.numpy())
@@ -279,10 +281,8 @@ class Exp:
         targets = np.concatenate(targets)
 
         # inverse transform
-        preds = self.scaler.inverse_transform_targets(preds)
-        targets = self.scaler.inverse_transform_targets(targets)
+        if inverse_transform:
+            preds = self.scaler.inverse_transform_targets(preds.reshape(-1, preds.shape[-1]))
+            targets = self.scaler.inverse_transform_targets(targets.reshape(-1, targets.shape[-1]))
 
         return preds, targets
-
-    def _mse(self, pred, target):
-        pred = 
