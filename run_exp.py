@@ -78,20 +78,25 @@ exp = Exp(configs)
 # Run training or testing
 # ---------------------------
 if configs.mode == "train":
+
     print("Starting training...")
     exp.train()
 
     # Evaluate on test set after training
-    preds, targets = exp.test(inverse_transform=True)
+    preds, targets = exp.test(inverse_transform=False)
     exp.save_results(preds, targets)
     plot_predictions(preds, targets, plots_dir=configs.plots_dir)
 
 elif configs.mode == "test":
+
     print("Running test...")
+    
     if configs.test_model_path is None:
         raise ValueError("For testing, best model path needs to be provided.")
     else:
-        preds, targets = exp.test(checkpoint_path=configs.test_model_path)
+        preds, targets = exp.test(checkpoint_path=configs.test_model_path, inverse_transform=True)
+
+    exp.save_results(preds, targets)
     plot_predictions(preds, targets, plots_dir=configs.plots_dir)
 
 else:

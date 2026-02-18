@@ -39,25 +39,16 @@ import matplotlib.pyplot as plt
 
 def plot_predictions(preds, targets, plots_dir="plots"):
     """
-    Plot 4 subfigures (Temperature, Voltage, SEI Rate, Li Rate)
-    in a single figure and save it.
+    Create 4 separate plots:
+    - Temperature
+    - Voltage
+    - SEI Rate
+    - Lithium Capacity Rate
 
-    Parameters
-    ----------
-    preds : np.ndarray (N, 4)
-    targets : np.ndarray (N, 4)
-    plots_dir : str
+    Each saved as an individual PNG.
     """
 
     #os.makedirs(plots_dir, exist_ok=True)
-
-    preds = np.asarray(preds)
-    targets = np.asarray(targets)
-
-    if preds.shape != targets.shape:
-        raise ValueError(
-            f"Shape mismatch: preds {preds.shape} vs targets {targets.shape}"
-        )
 
     feature_names = [
         "Temperature [K]",
@@ -66,22 +57,28 @@ def plot_predictions(preds, targets, plots_dir="plots"):
         "Lithium Capacity Rate [A.h/s]"
     ]
 
-    fig, axes = plt.subplots(4, 1, figsize=(8, 5), sharex=True)
+    file_names = [
+        "temperature.png",
+        "voltage.png",
+        "sei_rate.png",
+        "lithium_capacity_rate.png"
+    ]
 
     for i in range(4):
-        axes[i].plot(targets[:, i], label="True", linewidth=1)
-        axes[i].plot(preds[:, i], label="Predicted", linewidth=1)
 
-        axes[i].set_ylabel(feature_names[i])
-        axes[i].grid(alpha=0.3)
-        axes[i].legend()
+        plt.figure(figsize=(8, 4))
 
-    axes[-1].set_xlabel("Timestep")
+        plt.plot(targets[:, i], label="True", linewidth=1)
+        plt.plot(preds[:, i], label="Predicted", linewidth=1)
 
-    fig.suptitle("Battery Surrogate Model – True vs Predicted", fontsize=14)
+        plt.xlabel("Timestep")
+        plt.ylabel(feature_names[i])
+        plt.title(f"{feature_names[i]} – True vs Predicted")
 
-    plt.tight_layout(rect=[0, 0, 1, 0.97])
+        plt.grid(alpha=0.3)
+        plt.legend()
 
-    save_path = os.path.join(plots_dir, "prediction_results.png")
-    plt.savefig(save_path, dpi=300)
-    plt.close()
+        save_path = os.path.join(plots_dir, file_names[i])
+        plt.tight_layout()
+        plt.savefig(save_path, dpi=300)
+        plt.close()
