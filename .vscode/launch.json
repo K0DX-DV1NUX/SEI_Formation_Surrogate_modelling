@@ -9,9 +9,10 @@
             "console": "integratedTerminal",
             "justMyCode": true,
             "args": [
-                "--mode", "train",
+                "--mode", "test",
                 "--model", "MLP",
-                "--mlp_hidden_sizes", "[128,64]",
+                "--test_standardize_path", "checkpoints/MLP_42/std_values.json",
+                "--test_model_path", "checkpoints/MLP_42/best_model_MLP.pt",
                 "--train_dir", "Experiments/train",
                 "--vali_dir", "Experiments/vali",
                 "--test_dir", "Experiments/test",

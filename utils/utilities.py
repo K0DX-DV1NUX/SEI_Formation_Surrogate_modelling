@@ -49,7 +49,7 @@ def plot_predictions(preds, targets, plots_dir="plots"):
     plots_dir : str
     """
 
-    os.makedirs(plots_dir, exist_ok=True)
+    #os.makedirs(plots_dir, exist_ok=True)
 
     preds = np.asarray(preds)
     targets = np.asarray(targets)

@@ -6,6 +6,7 @@ import numpy as np
 import copy
 import os
 from sklearn.metrics import mean_squared_error, mean_absolute_error
+import matplotlib.pyplot as plt
 
 from builds.build_dataframes import BuildDataframes
 from builds.build_datasets import BatteryDataset
@@ -18,58 +19,95 @@ class Exp:
 
         self.configs = configs
         self.device = torch.device(configs.device)
-        self.checkpoint_dir = checkpoint_dir
+        #self.checkpoint_dir = checkpoint_dir
+        #os.makedirs(self.checkpoint_dir, exist_ok=True)
+
+        if self.configs.mode != "test":
+
+            # ----------------------------
+            # Load raw data
+            # ----------------------------
+            train_dfs = BuildDataframes("Experiments/train").get_dataframes()
+            vali_dfs  = BuildDataframes("Experiments/vali").get_dataframes()
+
+            # ----------------------------
+            # Standardize (fit ONLY on train)
+            # ----------------------------
+            self.scaler = Standardizer()
+            self.scaler.fit(train_dfs)
+            self.scaler.save(f"{self.configs.checkpoints_dir}/std_values.json")
+
+
+            train_std = [self.scaler.transform(df) for df in train_dfs]
+            vali_std  = [self.scaler.transform(df) for df in vali_dfs]
         
+            # ----------------------------
+            # Build train and vali datasets
+            # ----------------------------
+            train_dataset = BatteryDataset(train_std,
+                                        window_size=configs.window_size,
+                                        stride=configs.stride)
+            vali_dataset  = BatteryDataset(vali_std,
+                                        window_size=configs.window_size,
+                                        stride=configs.stride)
+            
+            # ----------------------------
+            # Build train and vali datasets
+            # ----------------------------
+            train_dataset = BatteryDataset(train_std,
+                                        window_size=configs.window_size,
+                                        stride=configs.stride)
+            vali_dataset  = BatteryDataset(vali_std,
+                                        window_size=configs.window_size,
+                                        stride=configs.stride)
+            
+        
+            # ----------------------------
+            # DataLoaders
+            # ----------------------------
+            self.train_loader = DataLoader(train_dataset,
+                                        batch_size=configs.batch_size,
+                                        shuffle=True,
+                                        drop_last=False)
+            self.vali_loader = DataLoader(vali_dataset,
+                                        batch_size=configs.batch_size,
+                                        shuffle=True,
+                                        drop_last=False)
 
         # ----------------------------
-        # Load raw data
+        # Build test Dataset and Dataloader
         # ----------------------------
-        train_dfs = BuildDataframes(self.configs.train_dir).get_dataframes()
-        vali_dfs  = BuildDataframes(self.configs.vali_dir).get_dataframes()
-        test_dfs  = BuildDataframes(self.configs.test_dir).get_dataframes()
-
-        # ----------------------------
-        # Standardize (fit ONLY on train)
-        # ----------------------------
+    
+        test_dfs  = BuildDataframes("Experiments/test").get_dataframes()
+        
         self.scaler = Standardizer()
-        self.scaler.fit(train_dfs)
 
-        train_std = [self.scaler.transform(df) for df in train_dfs]
-        vali_std  = [self.scaler.transform(df) for df in vali_dfs]
+        if self.configs.mode == "test":
+            if self.configs.test_standardize_path is None:
+                raise ValueError("Need to provide standardization json details.")
+            else:
+                self.scaler.load(self.configs.test_standardize_path)
+        else:
+            self.scaler.load(f"{self.configs.checkpoints_dir}/std_values.json")
+
+
         test_std  = [self.scaler.transform(df) for df in test_dfs]
 
-        # ----------------------------
-        # Build datasets
-        # ----------------------------
-        train_dataset = BatteryDataset(train_std,
-                                       window_size=configs.window_size,
-                                       stride=configs.stride)
-        vali_dataset  = BatteryDataset(vali_std,
-                                       window_size=configs.window_size,
-                                       stride=configs.stride)
+       
         test_dataset  = BatteryDataset(test_std,
                                        window_size=configs.window_size,
                                        stride=1)
 
-        # ----------------------------
-        # DataLoaders
-        # ----------------------------
-        self.train_loader = DataLoader(train_dataset,
-                                       batch_size=configs.batch_size,
-                                       shuffle=True,
-                                       drop_last=False)
-        self.vali_loader = DataLoader(vali_dataset,
-                                      batch_size=configs.batch_size,
-                                      shuffle=True,
-                                      drop_last=False)
+        
         self.test_loader = DataLoader(test_dataset,
                                       batch_size=1,
                                       shuffle=False)
+        
 
         # ----------------------------
         # Model
         # ----------------------------
-        self.model = self._load_model(self.configs.model).to(self.device)
+        self.model = self._load_model(configs.model).to(self.device)
 
         # ----------------------------
         # Optimizer
@@ -148,7 +186,7 @@ class Exp:
             print(f"Epoch {epoch}/{self.configs.epochs} | "
                   f"Train Loss: {train_loss:.6f} | "
                   f"Val Loss: {val_loss:.6f} | "
-                  f"LR: {self.optimizer.param_groups[0]['lr']:.6e} | "
+                  f"LR: {self.optimizer.param_groups[0]['lr']:.6e} |"
                   f"Patience Counter: {self.patience_counter}/{self.configs.patience}")
 
             # -------------------------
@@ -160,15 +198,9 @@ class Exp:
                 self.patience_counter = 0
 
                 # save checkpoint
-                checkpoint_path = os.path.join(self.checkpoint_dir,
-                                               f"best_model_epoch.pt")
-                torch.save({
-                    'epoch': epoch,
-                    'model_state_dict': self.best_model,
-                    'optimizer_state_dict': self.optimizer.state_dict(),
-                    'val_loss': val_loss,
-                    'scaler': self.scaler.stats
-                }, checkpoint_path)
+                checkpoint_path = os.path.join(self.configs.checkpoints_dir,
+                                               f"best_model_{self.configs.model}.pt")
+                torch.save(self.model.state_dict(), checkpoint_path)
 
             else:
                 self.patience_counter += 1
@@ -180,35 +212,17 @@ class Exp:
         # -------------------------
         # Load best model
         # -------------------------
-        self.model.load_state_dict(self.best_model)
+        # self.model.load_state_dict(torch.load(f"{self.configs.checkpoint_dir}\
+        #                                       /best_model_{self.configs.model}.pt"))
 
         # -------------------------
         # Evaluate on test set
         # -------------------------
-        preds, targets = self.test()
-
+        #preds, targets = self.test()  # already inverse transformed
+        #self.write_results(preds, targets)
         # flatten if needed (batch, features)
-        preds_flat = preds.reshape(-1, preds.shape[-1])
-        targets_flat = targets.reshape(-1, targets.shape[-1])
-
-        # compute metrics per feature
-        mse = mean_squared_error(targets_flat, preds_flat)
-        mae = mean_absolute_error(targets_flat, preds_flat)
-        rmse = np.sqrt(mse)
-
-        print(f"Test MSE: {mse:.6f}, MAE: {mae:.6f}, RMSE: {rmse:.6f}")
-
-        # -------------------------
-        # Save to results.txt
-        # -------------------------
-        
-        with open("results.txt", "w") as f:
-            f.write("Battery Surrogate Model Test Metrics\n")
-            f.write("-----------------------------------\n")
-            f.write(f"MSE:  {mse:.6f}\n")
-            f.write(f"MAE:  {mae:.6f}\n")
-            f.write(f"RMSE: {rmse:.6f}\n")
-            f.write("\nFeature-wise MSE:\n")
+        # preds_flat = preds.reshape(-1, preds.shape[-1])
+        # targets_flat = targets.reshape(-1, targets.shape[-1])
 
 
 
@@ -261,10 +275,10 @@ class Exp:
     def test(self, checkpoint_path=None, inverse_transform=False):
 
         if checkpoint_path is not None:
-            # load model from checkpoint
-            checkpoint = torch.load(checkpoint_path, map_location=self.device)
-            self.model.load_state_dict(checkpoint['model_state_dict'])
-            print(f"Loaded model from {checkpoint_path}")
+           self.model.load_state_dict(torch.load(checkpoint_path))
+        else:
+            self.model.load_state_dict(torch.load(f"{self.configs.checkpoints_dir}/best_model_{self.configs.model}.pt"))
+        print(f"Model Loaded.")
 
         self.model.eval()
         preds, targets = [], []
@@ -272,17 +286,43 @@ class Exp:
         with torch.no_grad():
             for x, y in self.test_loader:
                 x = x.to(self.device)
-                y = y.to(self.device)
                 pred = self.model(x)
                 preds.append(pred.cpu().numpy())
                 targets.append(y.numpy())
 
         preds = np.concatenate(preds)
         targets = np.concatenate(targets)
+        self.write_results(preds, targets)
+        
 
-        # inverse transform
         if inverse_transform:
             preds = self.scaler.inverse_transform_targets(preds.reshape(-1, preds.shape[-1]))
             targets = self.scaler.inverse_transform_targets(targets.reshape(-1, targets.shape[-1]))
 
         return preds, targets
+    
+
+    def write_results(self, preds, targets):
+
+        # compute metrics per feature
+        mse = mean_squared_error(targets, preds)
+        mae = mean_absolute_error(targets, preds)
+        rmse = np.sqrt(mse)
+
+        print(f"Test MSE: {mse:.6f}, MAE: {mae:.6f}, RMSE: {rmse:.6f}")
+
+        # -------------------------
+        # Save to results.txt
+        # -------------------------
+        
+        with open("results.txt", "a") as f:
+            f.write("Battery Surrogate Model Test Metrics\n")
+            f.write("-----------------------------------\n")
+            f.write(f"MODEL:{self.configs.model}, SEED:{self.configs.seed}, MSE:{mse:.6f}, MAE:  {mae:.6f}, RMSE: {rmse:.6f}")
+            f.write(f"\n")
+            f.write(f"\n")
+            f.close()
+
+    def save_results(self, preds, targets):
+        np.save(f"{self.configs.results_dir}/preds.npy", preds)
+        np.save(f"{self.configs.results_dir}/targets.npy", targets)

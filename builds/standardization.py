@@ -1,4 +1,5 @@
 import numpy as np
+import json
 
 class Standardizer:
 
@@ -91,3 +92,17 @@ class Standardizer:
         )
 
         return y_pred
+    
+    # -------------------------
+    # SAVE
+    # -------------------------
+    def save(self, path):
+        with open(path, "w") as f:
+            json.dump(self.stats, f, indent=4)
+
+    # -------------------------
+    # LOAD
+    # -------------------------
+    def load(self, path):
+        with open(path, "r") as f:
+            self.stats = json.load(f)

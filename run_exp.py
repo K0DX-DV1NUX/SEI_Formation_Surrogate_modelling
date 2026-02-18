@@ -17,6 +17,8 @@ parser = argparse.ArgumentParser(description="Battery Surrogate Experiment Runne
 parser.add_argument("--mode", type=str, default="train",
                     choices=["train", "test"],
                     help="Run mode: train or test")
+parser.add_argument("--test_standardize_path", type=str, default="", help="If test mode, need to provide data standardization json file.")
+parser.add_argument("--test_model_path", type=str, default="", help="If test mode, need to provide model.pt location.")
 
 parser.add_argument("--checkpoint", type=str, default=None,
                     help="Path to checkpoint to load for testing")
@@ -62,6 +64,11 @@ if torch.cuda.is_available():
 print("Running with configuration:")
 print(configs)
 
+settings = f"{configs.model}_{configs.seed}"
+configs.checkpoints_dir = f"{configs.checkpoints_dir}/{settings}"
+configs.results_dir = f"{configs.results_dir}/{settings}"
+configs.plots_dir = f"{configs.plots_dir}/{settings}"
+
 # Check and prepare directories
 check_and_prepare_dirs(configs)
 
@@ -76,15 +83,15 @@ if configs.mode == "train":
 
     # Evaluate on test set after training
     preds, targets = exp.test(inverse_transform=True)
+    exp.save_results(preds, targets)
     plot_predictions(preds, targets, plots_dir=configs.plots_dir)
 
 elif configs.mode == "test":
     print("Running test...")
-    if configs.checkpoint is None:
-        print("No checkpoint provided. Using best model from training.")
-        preds, targets = exp.test()
+    if configs.test_model_path is None:
+        raise ValueError("For testing, best model path needs to be provided.")
     else:
-        preds, targets = exp.test(checkpoint_path=configs.checkpoint)
+        preds, targets = exp.test(checkpoint_path=configs.test_model_path)
     plot_predictions(preds, targets, plots_dir=configs.plots_dir)
 
 else:
