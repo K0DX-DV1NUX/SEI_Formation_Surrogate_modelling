@@ -1,13 +1,11 @@
 #!/bin/sh
 
 model="MLP"
-hidden_sizes="128 64"
 
 
 python run_exp.py \
     --mode train \
     --model $model \
-    --mlp_hidden_sizes $hidden_sizes \
     --train_dir "Experiments/train" \
     --vali_dir "Experiments/vali" \
     --test_dir "Experiments/test" \
@@ -17,7 +15,7 @@ python run_exp.py \
     --epochs 20 \
     --patience 5 \
     --batch_size 256 \
-    --learning_rate 1e-3 \
+    --learning_rate 1e-1 \
     --loss mse \
     --num_workers 0 \
     --window_size 100 \

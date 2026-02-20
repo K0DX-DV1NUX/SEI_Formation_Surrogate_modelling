@@ -7,7 +7,7 @@ class BatteryDataset(Dataset):
     def __init__(self, dataframes, window_size=30, stride=1):
         """
         dataframes: list of standardized pandas DataFrames
-        window_size: LSTM window length
+        window_size: sequence length
         stride: step size between windows
         """
 
@@ -33,19 +33,25 @@ class BatteryDataset(Dataset):
         df = self.dataframes[df_id]
 
         current = df["Current [A]"].values
-        temp    = df["Cell temperature [K]"].values
         voltage = df["Terminal voltage [V]"].values
+        temp    = df["Cell temperature [K]"].values
         sei_r   = df["SEI Rate"].values
         li_r    = df["Lithium Capacity Rate"].values
 
-        input_seq = current[start:end+1].reshape(-1, 1)
+        # ---- INPUT: current + voltage ----
+        input_seq = np.stack([
+            current[start:end+1],
+            voltage[start:end+1]
+        ], axis=1).astype(np.float32)   # shape: (window_size, 2)
 
+        # ---- TARGET: sei_r, li_r, temperature ----
         target = np.array([
-            temp[end],
-            voltage[end],
             sei_r[end],
-            li_r[end]
+            li_r[end],
+            temp[end]
         ], dtype=np.float32)
 
-        return torch.tensor(input_seq, dtype=torch.float32), \
-               torch.tensor(target, dtype=torch.float32)
+        return (
+            torch.tensor(input_seq, dtype=torch.float32),
+            torch.tensor(target, dtype=torch.float32)
+        )

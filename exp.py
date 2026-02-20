@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 from builds.build_dataframes import BuildDataframes
 from builds.build_datasets import BatteryDataset
 from builds.standardization import Standardizer
-from models import GRU, LSTM, MLP
+from models import GRU, LSTM, MLP, NO
 
 class Exp:
 
@@ -133,6 +133,7 @@ class Exp:
             "GRU": GRU,
             "LSTM": LSTM,
             "MLP": MLP,
+            "NO": NO,
         }
         return models[model_name].Model(self.configs).float()
 

@@ -6,7 +6,7 @@ class Model(nn.Module):
     def __init__(self, configs):
         super(Model, self).__init__()
 
-        self.input_size = 1                  # current only
+        self.input_size = configs.in_features                  # current only
         self.hidden_size = 32
         self.num_layers = 3
         self.out_features = configs.out_features

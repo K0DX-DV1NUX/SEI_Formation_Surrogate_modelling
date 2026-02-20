@@ -39,32 +39,28 @@ import matplotlib.pyplot as plt
 
 def plot_predictions(preds, targets, plots_dir="plots"):
     """
-    Create 4 separate plots:
+    Create 3 separate plots:
     - Temperature
-    - Voltage
     - SEI Rate
     - Lithium Capacity Rate
-
     Each saved as an individual PNG.
     """
 
     #os.makedirs(plots_dir, exist_ok=True)
 
     feature_names = [
-        "Temperature [K]",
-        "Voltage [V]",
         "SEI Rate [nm/s]",
-        "Lithium Capacity Rate [A.h/s]"
+        "Lithium Capacity Rate [A.h/s]",
+        "Temperature [K]",
     ]
 
     file_names = [
-        "temperature.png",
-        "voltage.png",
         "sei_rate.png",
-        "lithium_capacity_rate.png"
+        "lithium_capacity_rate.png",
+        "temperature.png",
     ]
 
-    for i in range(4):
+    for i in range(3):
 
         plt.figure(figsize=(8, 4))
 

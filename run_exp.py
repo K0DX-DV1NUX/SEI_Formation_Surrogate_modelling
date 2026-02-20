@@ -39,8 +39,8 @@ parser.add_argument("--results_dir", type=str, default="results", help="Director
 # ---------------------------
 parser.add_argument("--seed", type=int, default=42, help="Random seed for reproducibility")
 parser.add_argument("--num_workers", type=int, default=10, help="Number of workers for data loading")
-parser.add_argument("--in_features", type=int, default=1, help="Number of input features")
-parser.add_argument("--out_features", type=int, default=4, help="Number of output features")
+parser.add_argument("--in_features", type=int, default=2, help="Number of input features")
+parser.add_argument("--out_features", type=int, default=3, help="Number of output features")
 parser.add_argument("--epochs", type=int, default=100, help="Number of epochs")
 parser.add_argument("--patience", type=int, default=5, help="Early stopping patience")
 parser.add_argument("--batch_size", type=int, default=256, help="Batch size")
@@ -83,7 +83,7 @@ if configs.mode == "train":
     exp.train()
 
     # Evaluate on test set after training
-    preds, targets = exp.test(inverse_transform=False)
+    preds, targets = exp.test(inverse_transform=True)
     exp.save_results(preds, targets)
     plot_predictions(preds, targets, plots_dir=configs.plots_dir)
 
