@@ -12,12 +12,12 @@ python run_exp.py \
     --plots_dir "plots" \
     --checkpoints_dir "checkpoints" \
     --results_dir "results" \
-    --epochs 20 \
-    --patience 5 \
+    --epochs 50 \
+    --patience 10 \
     --batch_size 256 \
     --learning_rate 1e-1 \
     --loss mse \
     --num_workers 0 \
     --window_size 100 \
-    --stride 10 \
-    --seed 42
+    --stride 5 \
+    --seed 43
