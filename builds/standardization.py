@@ -71,22 +71,17 @@ class Standardizer:
 
         y_pred = y_pred.copy()
 
-        y_pred[:, 0] = (
+        y_pred[:, 2] = (
             y_pred[:, 0] * self.stats["temp_std"]
             + self.stats["temp_mean"]
         )
 
-        y_pred[:, 1] = (
-            y_pred[:, 1] * self.stats["voltage_std"]
-            + self.stats["voltage_mean"]
-        )
-
-        y_pred[:, 2] = (
+        y_pred[:, 0] = (
             y_pred[:, 2] * self.stats["sei_std"]
             + self.stats["sei_mean"]
         )
 
-        y_pred[:, 3] = (
+        y_pred[:, 1] = (
             y_pred[:, 3] * self.stats["li_std"]
             + self.stats["li_mean"]
         )
