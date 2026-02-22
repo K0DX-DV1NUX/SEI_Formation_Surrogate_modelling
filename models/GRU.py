@@ -7,8 +7,8 @@ class Model(nn.Module):
         super(Model, self).__init__()
 
         self.input_size = configs.in_features                  # current only
-        self.hidden_size = 32
-        self.num_layers = 3
+        self.hidden_size = 64
+        self.num_layers = 5
         self.out_features = configs.out_features
         self.dropout = 0.2
 
@@ -21,9 +21,9 @@ class Model(nn.Module):
         )
 
         self.fc = nn.Sequential(
-            nn.Linear(self.hidden_size, 128),
-            nn.ReLU(),
-            nn.Linear(128, self.out_features)
+            nn.Linear(self.hidden_size, self.out_features),
+            #nn.Tanh(),
+            #nn.Linear(128, self.out_features)
         )
 
     def forward(self, x):

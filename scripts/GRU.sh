@@ -11,12 +11,14 @@ python run_exp.py \
     --plots_dir "plots" \
     --checkpoints_dir "checkpoints" \
     --results_dir "results" \
-    --epochs 20 \
-    --patience 5 \
-    --batch_size 256 \
+    --epochs 50 \
+    --patience 10 \
+    --batch_size 512 \
     --learning_rate 1e-3 \
     --loss mse \
     --num_workers 0 \
     --window_size 100 \
-    --stride 10 \
-    --seed 42
+    --stride 2 \
+    --seed 43
+        #--test_model_path "checkpoints/GRU_43/best_model_GRU.pt" \
+    #--test_standardize_path "checkpoints/GRU_43/std_values.json" \

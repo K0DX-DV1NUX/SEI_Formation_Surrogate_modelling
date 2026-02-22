@@ -42,7 +42,6 @@ def plot_predictions(preds, targets, plots_dir="plots"):
     Create 3 separate plots:
     - Temperature
     - SEI Rate
-    - Lithium Capacity Rate
     Each saved as an individual PNG.
     """
 
@@ -50,17 +49,15 @@ def plot_predictions(preds, targets, plots_dir="plots"):
 
     feature_names = [
         "SEI Rate [nm/s]",
-        "Lithium Capacity Rate [A.h/s]",
         "Temperature [K]",
     ]
 
     file_names = [
         "sei_rate.png",
-        "lithium_capacity_rate.png",
         "temperature.png",
     ]
 
-    for i in range(3):
+    for i in range(2):
 
         plt.figure(figsize=(8, 4))
 

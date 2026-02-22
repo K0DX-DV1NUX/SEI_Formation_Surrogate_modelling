@@ -36,18 +36,18 @@ class BatteryDataset(Dataset):
         voltage = df["Terminal voltage [V]"].values
         temp    = df["Cell temperature [K]"].values
         sei_r   = df["SEI Rate"].values
-        li_r    = df["Lithium Capacity Rate"].values
+        q_cum   = df["Q_cum"].values
 
         # ---- INPUT: current + voltage ----
         input_seq = np.stack([
             current[start:end+1],
-            voltage[start:end+1]
+            voltage[start:end+1],
+            q_cum[start:end+1],
         ], axis=1).astype(np.float32)   # shape: (window_size, 2)
 
         # ---- TARGET: sei_r, li_r, temperature ----
         target = np.array([
             sei_r[end],
-            li_r[end],
             temp[end]
         ], dtype=np.float32)
 

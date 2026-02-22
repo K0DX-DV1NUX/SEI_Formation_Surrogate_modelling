@@ -12,7 +12,7 @@ class Standardizer:
         temp    = np.concatenate([df["Cell temperature [K]"].values for df in dataframes])
         voltage = np.concatenate([df["Terminal voltage [V]"].values for df in dataframes])
         sei_r   = np.concatenate([df["SEI Rate"].values for df in dataframes])
-        li_r    = np.concatenate([df["Lithium Capacity Rate"].values for df in dataframes])
+        q_cum   = np.concatenate([df["Q_cum"].values for df in dataframes])
 
         self.stats = {
             "current_mean": current.mean(),
@@ -27,8 +27,9 @@ class Standardizer:
             "sei_mean": sei_r.mean(),
             "sei_std": sei_r.std(),
 
-            "li_mean": li_r.mean(),
-            "li_std": li_r.std(),
+            "q_cum_mean": q_cum.mean(),
+            "q_cum_std": q_cum.std(),
+
         }
 
     def transform(self, df):
@@ -55,38 +56,33 @@ class Standardizer:
             (self.stats["sei_std"] + 1e-8)
         )
 
-        df["Lithium Capacity Rate"] = (
-            (df["Lithium Capacity Rate"] - self.stats["li_mean"]) /
-            (self.stats["li_std"] + 1e-8)
+        df["Q_cum"] = (
+            (df["Q_cum"] - self.stats["q_cum_mean"]) /
+            (self.stats["q_cum_std"] + 1e-8)
         )
 
         return df
     
-    def inverse_transform_targets(self, y_pred):
+    def inverse_transform_targets(self, y):
         """
-        y_pred shape: (batch, 4)
+        y_pred shape: (batch, 2)
         Order:
-        [temperature, voltage, sei_rate, lithium_rate]
+        [sei_rate, temperature]
         """
 
-        y_pred = y_pred.copy()
+        y = y.copy()
 
-        y_pred[:, 2] = (
-            y_pred[:, 2] * self.stats["temp_std"]
-            + self.stats["temp_mean"]
-        )
-
-        y_pred[:, 0] = (
-            y_pred[:, 0] * self.stats["sei_std"]
+        y[:, 0] = (
+            y[:, 0] * self.stats["sei_std"]
             + self.stats["sei_mean"]
         )
 
-        y_pred[:, 1] = (
-            y_pred[:, 1] * self.stats["li_std"]
-            + self.stats["li_mean"]
+        y[:, 1] = (
+            y[:, 1] * self.stats["temp_std"]
+            + self.stats["temp_mean"]
         )
 
-        return y_pred
+        return y
     
     # -------------------------
     # SAVE

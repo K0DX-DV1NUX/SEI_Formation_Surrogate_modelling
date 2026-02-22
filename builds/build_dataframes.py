@@ -1,7 +1,7 @@
 import os
 import numpy as np
 import pandas as pd
-
+import matplotlib.pyplot as plt
 
 class BuildDataframes:
 
@@ -11,16 +11,14 @@ class BuildDataframes:
         "Terminal voltage [V]",
         "Cell temperature [K]",
         "Negative SEI thickness [nm]",
-        "Total lithium capacity [A.h]"
     ]
 
     NEW_COLUMNS = [
-        "Time [s]",
         "Current [A]",
         "Terminal voltage [V]",
         "Cell temperature [K]",
         "SEI Rate",
-        "Lithium Capacity Rate"
+        "Q_cum",
     ]
 
     def __init__(self, data_folder):
@@ -58,6 +56,7 @@ class BuildDataframes:
             self._validate_time(df, file_name)
 
             df = self._rate_conversion(df)
+            df = self._add_cumulative_features(df)
 
             df = df[self.NEW_COLUMNS]
 
@@ -95,33 +94,59 @@ class BuildDataframes:
 
         time = df["Time [s]"].values
         sei = df["Negative SEI thickness [nm]"].values
-        li_capacity = df["Total lithium capacity [A.h]"].values
 
         dt = np.diff(time)
         dsei = np.diff(sei)
-        dli = np.diff(li_capacity)
 
         rate_sei = dsei / (dt + 1e-12)
-        rate_dli = dli / (dt + 1e-12)
 
         rate_sei = np.insert(rate_sei, 0, 0.0)
-        rate_dli = np.insert(rate_dli, 0, 0.0)
 
         # Remove old columns
         df = df.drop(
             columns=[
                 "Negative SEI thickness [nm]",
-                "Total lithium capacity [A.h]"
             ]
         )
 
         df["SEI Rate"] = rate_sei
-        df["Lithium Capacity Rate"] = rate_dli
 
         return df
 
+    def _add_cumulative_features(self, df):
+        """
+        Add Q_cum (cumulative absolute current in Ah)
+        """
+
+        df = df.copy()
+
+        current = df["Current [A]"].values
+        time = df["Time [s]"].values
+
+        dt_hours = np.diff(time, prepend=time[0]) / 3600.0  # time step in hours
+
+        # Cumulative current in Ah (absolute value)
+        Q_cum = np.cumsum(np.abs(current) * dt_hours)
+
+        df["Q_cum"] = Q_cum
+
+        return df
 
     def get_dataframes(self):
         return self.dataframes
 
 
+if __name__ == "__main__":
+    builder = BuildDataframes("Experiments/test")
+    dfs = builder.get_dataframes()
+
+    sei_rates = [df["SEI Rate"].values for df in dfs]
+    plt.figure(figsize=(10, 6))
+    for i, sei_rate in enumerate(sei_rates):
+        plt.plot(sei_rate, label=f"Experiment {i+1}")
+    plt.title("SEI")
+    plt.xlabel("Time Steps")
+    plt.ylabel("SEI")
+    plt.legend()
+    plt.grid()
+    plt.show()
