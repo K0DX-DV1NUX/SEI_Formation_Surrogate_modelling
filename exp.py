@@ -71,7 +71,7 @@ class Exp:
                                         drop_last=False)
             self.vali_loader = DataLoader(vali_dataset,
                                         batch_size=configs.batch_size,
-                                        shuffle=True,
+                                        shuffle=False,
                                         drop_last=False)
 
         # ----------------------------
