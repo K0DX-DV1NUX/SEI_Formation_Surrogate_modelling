@@ -128,7 +128,7 @@ class BuildDataframes:
         # Cumulative current in Ah (absolute value)
         Q_cum = np.cumsum(np.abs(current) * dt_hours)
 
-        df["Q_cum"] = Q_cum
+        df["Q_cum"] = np.sqrt(Q_cum + 1e-12)  # Add small constant to avoid sqrt of zero
 
         return df
 

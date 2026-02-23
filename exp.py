@@ -308,9 +308,12 @@ class Exp:
         # compute metrics per feature
         mse = mean_squared_error(targets, preds)
         mae = mean_absolute_error(targets, preds)
-        rmse = np.sqrt(mse)
+        mse_sei = mean_squared_error(targets[:, 0], preds[:, 0])
+        mse_temp = mean_squared_error(targets[:, 1], preds[:, 1])
+        mae_sei = mean_absolute_error(targets[:, 0], preds[:, 0])
+        mae_temp = mean_absolute_error(targets[:, 1], preds[:, 1])
 
-        print(f"Test MSE: {mse:.6f}, MAE: {mae:.6f}, RMSE: {rmse:.6f}")
+        print(f"Test MSE: {mse:.6f}, MAE: {mae:.6f}, MSE_SEI: {mse_sei:.6f}, MAE_SEI: {mae_sei:.6f}, MSE_TEMP: {mse_temp:.6f}, MAE_TEMP: {mae_temp:.6f}")
 
         # -------------------------
         # Save to results.txt
@@ -319,7 +322,7 @@ class Exp:
         with open("results.txt", "a") as f:
             f.write("Battery Surrogate Model Test Metrics\n")
             f.write("-----------------------------------\n")
-            f.write(f"MODEL:{self.configs.model}, SEED:{self.configs.seed}, MSE:{mse:.6f}, MAE:  {mae:.6f}, RMSE: {rmse:.6f}")
+            f.write(f"MODEL:{self.configs.model}, SEED:{self.configs.seed}, MSE:{mse:.6f}, MAE:  {mae:.6f}, MSE_SEI: {mse_sei:.6f}, MAE_SEI: {mae_sei:.6f}, MSE_TEMP: {mse_temp:.6f}, MAE_TEMP: {mae_temp:.6f}")
             f.write(f"\n")
             f.write(f"\n")
             f.close()

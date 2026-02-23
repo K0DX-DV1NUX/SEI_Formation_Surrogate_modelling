@@ -26,6 +26,8 @@ class Model(nn.Module):
             #nn.Linear(128, self.out_features)
         )
 
+        #self.last_state=torch.zeros(self.num_layers, 1, self.hidden_size)
+
     def forward(self, x):
         """
         x: (batch, window_size, 1)
@@ -34,10 +36,13 @@ class Model(nn.Module):
         # GRU output:
         # out -> (batch, seq_len, hidden_size)
         # h_n -> (num_layers, batch, hidden_size)
-        out, h_n = self.gru(x)
+        out, h_n = self.gru(x) #self.last_state
 
         # Use final hidden state of last layer
         final_hidden = h_n[-1]   # (batch, hidden_size)
+        
+        #self.last_state= final_hidden.detach().clone().unsqueeze(0).repeat(self.num_layers, 1, 1)
+
 
         output = self.fc(final_hidden)
 
