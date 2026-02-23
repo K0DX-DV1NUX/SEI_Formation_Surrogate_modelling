@@ -3,7 +3,7 @@
 model="GRU"
 
 python run_exp.py \
-    --mode train \
+    --mode test \
     --model $model \
     --train_dir "Experiments/train" \
     --vali_dir "Experiments/vali" \
@@ -17,8 +17,8 @@ python run_exp.py \
     --learning_rate 1e-3 \
     --loss mse \
     --num_workers 0 \
-    --window_size 100 \
-    --stride 2 \
-    --seed 43
-        #--test_model_path "checkpoints/GRU_43/best_model_GRU.pt" \
-    #--test_standardize_path "checkpoints/GRU_43/std_values.json" \
+    --window_size 50 \
+    --stride 10 \
+    --seed 43 \
+    --test_model_path "checkpoints/GRU_43/best_model_GRU.pt" \
+    --test_standardize_path "checkpoints/GRU_43/std_values.json"
