@@ -1,0 +1,60 @@
+Battery Surrogate Model Test Metrics
+-----------------------------------
+MODEL:LSTM, SEED:2021, MSE:0.251061, MAE:  0.266890, MSE_SEI: 0.066472, MAE_SEI: 0.157310, MSE_TEMP: 0.435690, MAE_TEMP: 0.376495
+
+Battery Surrogate Model Test Metrics
+-----------------------------------
+MODEL:LSTM, SEED:2021, MSE:26.443617, MAE:  3.945828, MSE_SEI: 22.389370, MAE_SEI: 3.776657, MSE_TEMP: 30.497871, MAE_TEMP: 4.115004
+
+Battery Surrogate Model Test Metrics
+-----------------------------------
+MODEL:LSTM, SEED:2021, MSE:0.050295, MAE:  0.147316, MSE_SEI: 0.039799, MAE_SEI: 0.135647, MSE_TEMP: 0.060788, MAE_TEMP: 0.158985
+
+Battery Surrogate Model Test Metrics
+-----------------------------------
+MODEL:LSTM, SEED:2022, MSE:0.265198, MAE:  0.277790, MSE_SEI: 0.068188, MAE_SEI: 0.166756, MSE_TEMP: 0.462130, MAE_TEMP: 0.388849
+
+Battery Surrogate Model Test Metrics
+-----------------------------------
+MODEL:LSTM, SEED:2022, MSE:25.840904, MAE:  3.913105, MSE_SEI: 20.838478, MAE_SEI: 3.693141, MSE_TEMP: 30.843384, MAE_TEMP: 4.133072
+
+Battery Surrogate Model Test Metrics
+-----------------------------------
+MODEL:LSTM, SEED:2022, MSE:0.095988, MAE:  0.190365, MSE_SEI: 0.061096, MAE_SEI: 0.168015, MSE_TEMP: 0.130907, MAE_TEMP: 0.212725
+
+Battery Surrogate Model Test Metrics
+-----------------------------------
+MODEL:LSTM, SEED:2023, MSE:0.260412, MAE:  0.271018, MSE_SEI: 0.083224, MAE_SEI: 0.169265, MSE_TEMP: 0.437610, MAE_TEMP: 0.372733
+
+Battery Surrogate Model Test Metrics
+-----------------------------------
+MODEL:LSTM, SEED:2023, MSE:22.632280, MAE:  3.689578, MSE_SEI: 17.916561, MAE_SEI: 3.488377, MSE_TEMP: 27.348063, MAE_TEMP: 3.890780
+
+Battery Surrogate Model Test Metrics
+-----------------------------------
+MODEL:LSTM, SEED:2023, MSE:0.066222, MAE:  0.164248, MSE_SEI: 0.055360, MAE_SEI: 0.160302, MSE_TEMP: 0.077092, MAE_TEMP: 0.168196
+
+Battery Surrogate Model Test Metrics
+-----------------------------------
+MODEL:LSTM, SEED:2024, MSE:0.260627, MAE:  0.269903, MSE_SEI: 0.084679, MAE_SEI: 0.170963, MSE_TEMP: 0.436573, MAE_TEMP: 0.368903
+
+Battery Surrogate Model Test Metrics
+-----------------------------------
+MODEL:LSTM, SEED:2024, MSE:26.614983, MAE:  3.957573, MSE_SEI: 20.097467, MAE_SEI: 3.637754, MSE_TEMP: 33.132477, MAE_TEMP: 4.277399
+
+Battery Surrogate Model Test Metrics
+-----------------------------------
+MODEL:LSTM, SEED:2024, MSE:0.082341, MAE:  0.147952, MSE_SEI: 0.036237, MAE_SEI: 0.136085, MSE_TEMP: 0.128462, MAE_TEMP: 0.159823
+
+Battery Surrogate Model Test Metrics
+-----------------------------------
+MODEL:LSTM, SEED:2025, MSE:0.243572, MAE:  0.273230, MSE_SEI: 0.052255, MAE_SEI: 0.155873, MSE_TEMP: 0.434838, MAE_TEMP: 0.390647
+
+Battery Surrogate Model Test Metrics
+-----------------------------------
+MODEL:LSTM, SEED:2025, MSE:28.627380, MAE:  4.092108, MSE_SEI: 24.818836, MAE_SEI: 3.946825, MSE_TEMP: 32.435989, MAE_TEMP: 4.237391
+
+Battery Surrogate Model Test Metrics
+-----------------------------------
+MODEL:LSTM, SEED:2025, MSE:0.065548, MAE:  0.176830, MSE_SEI: 0.053174, MAE_SEI: 0.161462, MSE_TEMP: 0.077926, MAE_TEMP: 0.192200
+

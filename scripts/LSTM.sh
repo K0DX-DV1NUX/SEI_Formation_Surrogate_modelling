@@ -2,7 +2,7 @@
 
 run_experiment() {
     seed=$3
-    model="GRU"
+    model="LSTM"
     mode=$1
     test_dir=$2
 
@@ -24,7 +24,7 @@ run_experiment() {
         --window_size 50 \
         --stride 10 \
         --seed $seed \
-        --test_model_folder "checkpoints/GRU_$seed"
+        --test_model_folder "checkpoints/LSTM_$seed"
         #--test_standardize_path "checkpoints/GRU_43/std_values.json"
 }
 

@@ -1,0 +1,60 @@
+Battery Surrogate Model Test Metrics
+-----------------------------------
+MODEL:GRU, SEED:2021, MSE:0.289275, MAE:  0.297907, MSE_SEI: 0.250779, MAE_SEI: 0.269616, MSE_TEMP: 0.327753, MAE_TEMP: 0.326162
+
+Battery Surrogate Model Test Metrics
+-----------------------------------
+MODEL:GRU, SEED:2021, MSE:16.239304, MAE:  2.969105, MSE_SEI: 11.483722, MAE_SEI: 2.621424, MSE_TEMP: 20.994886, MAE_TEMP: 3.316781
+
+Battery Surrogate Model Test Metrics
+-----------------------------------
+MODEL:GRU, SEED:2021, MSE:0.076294, MAE:  0.194192, MSE_SEI: 0.090651, MAE_SEI: 0.206367, MSE_TEMP: 0.061950, MAE_TEMP: 0.182008
+
+Battery Surrogate Model Test Metrics
+-----------------------------------
+MODEL:GRU, SEED:2022, MSE:0.276177, MAE:  0.282963, MSE_SEI: 0.226671, MAE_SEI: 0.230240, MSE_TEMP: 0.325809, MAE_TEMP: 0.335574
+
+Battery Surrogate Model Test Metrics
+-----------------------------------
+MODEL:GRU, SEED:2022, MSE:16.701666, MAE:  3.082972, MSE_SEI: 11.840250, MAE_SEI: 2.799388, MSE_TEMP: 21.563091, MAE_TEMP: 3.366550
+
+Battery Surrogate Model Test Metrics
+-----------------------------------
+MODEL:GRU, SEED:2022, MSE:0.085066, MAE:  0.192110, MSE_SEI: 0.070146, MAE_SEI: 0.171283, MSE_TEMP: 0.099992, MAE_TEMP: 0.212938
+
+Battery Surrogate Model Test Metrics
+-----------------------------------
+MODEL:GRU, SEED:2023, MSE:0.278385, MAE:  0.268095, MSE_SEI: 0.220426, MAE_SEI: 0.200838, MSE_TEMP: 0.336513, MAE_TEMP: 0.335244
+
+Battery Surrogate Model Test Metrics
+-----------------------------------
+MODEL:GRU, SEED:2023, MSE:16.162668, MAE:  3.022586, MSE_SEI: 11.667629, MAE_SEI: 2.763105, MSE_TEMP: 20.657721, MAE_TEMP: 3.282066
+
+Battery Surrogate Model Test Metrics
+-----------------------------------
+MODEL:GRU, SEED:2023, MSE:0.046053, MAE:  0.146682, MSE_SEI: 0.027847, MAE_SEI: 0.118388, MSE_TEMP: 0.064263, MAE_TEMP: 0.174979
+
+Battery Surrogate Model Test Metrics
+-----------------------------------
+MODEL:GRU, SEED:2024, MSE:0.288467, MAE:  0.281384, MSE_SEI: 0.253204, MAE_SEI: 0.239019, MSE_TEMP: 0.323807, MAE_TEMP: 0.323573
+
+Battery Surrogate Model Test Metrics
+-----------------------------------
+MODEL:GRU, SEED:2024, MSE:16.254690, MAE:  2.986721, MSE_SEI: 12.150411, MAE_SEI: 2.718093, MSE_TEMP: 20.358967, MAE_TEMP: 3.255352
+
+Battery Surrogate Model Test Metrics
+-----------------------------------
+MODEL:GRU, SEED:2024, MSE:0.065454, MAE:  0.171013, MSE_SEI: 0.060549, MAE_SEI: 0.164808, MSE_TEMP: 0.070360, MAE_TEMP: 0.177207
+
+Battery Surrogate Model Test Metrics
+-----------------------------------
+MODEL:GRU, SEED:2025, MSE:0.247576, MAE:  0.262531, MSE_SEI: 0.202722, MAE_SEI: 0.213518, MSE_TEMP: 0.292382, MAE_TEMP: 0.311665
+
+Battery Surrogate Model Test Metrics
+-----------------------------------
+MODEL:GRU, SEED:2025, MSE:16.317043, MAE:  3.018702, MSE_SEI: 11.323505, MAE_SEI: 2.722161, MSE_TEMP: 21.310575, MAE_TEMP: 3.315250
+
+Battery Surrogate Model Test Metrics
+-----------------------------------
+MODEL:GRU, SEED:2025, MSE:0.054185, MAE:  0.158239, MSE_SEI: 0.034814, MAE_SEI: 0.131473, MSE_TEMP: 0.073565, MAE_TEMP: 0.185006
+

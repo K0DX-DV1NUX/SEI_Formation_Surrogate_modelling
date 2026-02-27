@@ -7,8 +7,8 @@ class Model(nn.Module):
         super(Model, self).__init__()
 
         self.input_size = configs.in_features                  # current only
-        self.hidden_size = 64
-        self.num_layers = 5
+        self.hidden_size = 128
+        self.num_layers = 3
         self.out_features = configs.out_features
         self.dropout = 0.2
 

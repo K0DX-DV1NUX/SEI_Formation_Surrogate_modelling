@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 from builds.build_dataframes import BuildDataframes
 from builds.build_datasets import BatteryDataset
 from builds.standardization import Standardizer
-from models import GRU, LSTM, MLP, NO
+from models import GRU, LSTM, MLP, FourierOperator
 
 class Exp:
 
@@ -27,8 +27,8 @@ class Exp:
             # ----------------------------
             # Load raw data
             # ----------------------------
-            train_dfs = BuildDataframes("Experiments/train").get_dataframes()
-            vali_dfs  = BuildDataframes("Experiments/vali").get_dataframes()
+            train_dfs = BuildDataframes(configs.train_dir).get_dataframes()
+            vali_dfs  = BuildDataframes(configs.vali_dir).get_dataframes()
 
             # ----------------------------
             # Standardize (fit ONLY on train)
@@ -78,7 +78,7 @@ class Exp:
         # Build test Dataset and Dataloader
         # ----------------------------
     
-        test_dfs  = BuildDataframes("Experiments/test").get_dataframes()
+        test_dfs  = BuildDataframes(configs.test_dir).get_dataframes()
         
         self.scaler = Standardizer()
 
@@ -133,7 +133,7 @@ class Exp:
             "GRU": GRU,
             "LSTM": LSTM,
             "MLP": MLP,
-            "NO": NO,
+            "NO": FourierOperator,
         }
         return models[model_name].Model(self.configs).float()
 
@@ -225,7 +225,7 @@ class Exp:
         # preds_flat = preds.reshape(-1, preds.shape[-1])
         # targets_flat = targets.reshape(-1, targets.shape[-1])
 
-
+        
 
 
 
@@ -276,7 +276,10 @@ class Exp:
     def test(self, checkpoint_path=None, inverse_transform=False):
 
         if checkpoint_path is not None:
+           abc = torch.load(checkpoint_path)
+           print(f"Checkpoint keys: {abc.keys()}")
            self.model.load_state_dict(torch.load(checkpoint_path))
+           print()
         else:
             self.model.load_state_dict(torch.load(f"{self.configs.checkpoints_dir}/best_model_{self.configs.model}.pt"))
         print(f"Model Loaded.")

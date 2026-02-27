@@ -2,6 +2,7 @@ import os
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+from sklearn.cluster import DBSCAN
 
 class BuildDataframes:
 
@@ -121,16 +122,44 @@ class BuildDataframes:
         df = df.copy()
 
         current = df["Current [A]"].values
+        #voltage = df["Terminal voltage [V]"].values
         time = df["Time [s]"].values
 
         dt_hours = np.diff(time, prepend=time[0]) / 3600.0  # time step in hours
 
         # Cumulative current in Ah (absolute value)
         Q_cum = np.cumsum(np.abs(current) * dt_hours)
+        #V_cum = np.cumsum(np.abs(voltage) * dt_hours)
 
         df["Q_cum"] = np.sqrt(Q_cum + 1e-12)  # Add small constant to avoid sqrt of zero
+        #df["V_cum"] = np.sqrt(V_cum + 1e-12)  # Add small constant to avoid sqrt of zero
 
         return df
+    
+    # from sklearn.cluster import DBSCAN
+
+    # def _add_states(self, df):
+    #     """
+    #     Create a single state column:
+    #     -1 = Discharging
+    #     0 = Rest
+    #     1 = Charging
+    #     """
+    #     df = df.copy()
+
+    #     current = df["Current [A]"].values.reshape(-1, 1)
+
+    #     state = np.zeros(len(current))
+
+    #     # Charging state: current > 0
+    #     state[current.flatten() > 1e-4] = 1
+
+    #     # Discharging state: current < 0
+    #     state[current.flatten() < -1e-4] = -1
+
+    #     df["State_charge"] = state.astype(int)
+
+    #     return df
 
     def get_dataframes(self):
         return self.dataframes
