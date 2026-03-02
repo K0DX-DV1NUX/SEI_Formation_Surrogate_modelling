@@ -1,0 +1,60 @@
+Battery Surrogate Model Test Metrics
+-----------------------------------
+MODEL:CNN, SEED:2021, MSE:0.217568, MAE:  0.287117, MSE_SEI: 0.167235, MAE_SEI: 0.294204, MSE_TEMP: 0.268070, MAE_TEMP: 0.279854
+
+Battery Surrogate Model Test Metrics
+-----------------------------------
+MODEL:CNN, SEED:2021, MSE:15.376040, MAE:  3.152185, MSE_SEI: 14.489406, MAE_SEI: 3.286291, MSE_TEMP: 16.262691, MAE_TEMP: 3.018090
+
+Battery Surrogate Model Test Metrics
+-----------------------------------
+MODEL:CNN, SEED:2021, MSE:0.150364, MAE:  0.314809, MSE_SEI: 0.071052, MAE_SEI: 0.221033, MSE_TEMP: 0.229680, MAE_TEMP: 0.408570
+
+Battery Surrogate Model Test Metrics
+-----------------------------------
+MODEL:CNN, SEED:2022, MSE:0.286144, MAE:  0.379450, MSE_SEI: 0.199603, MAE_SEI: 0.376414, MSE_TEMP: 0.372642, MAE_TEMP: 0.382367
+
+Battery Surrogate Model Test Metrics
+-----------------------------------
+MODEL:CNN, SEED:2022, MSE:20.528774, MAE:  3.599713, MSE_SEI: 21.978098, MAE_SEI: 4.090585, MSE_TEMP: 19.079416, MAE_TEMP: 3.108825
+
+Battery Surrogate Model Test Metrics
+-----------------------------------
+MODEL:CNN, SEED:2022, MSE:0.151400, MAE:  0.296991, MSE_SEI: 0.083257, MAE_SEI: 0.191531, MSE_TEMP: 0.219553, MAE_TEMP: 0.402452
+
+Battery Surrogate Model Test Metrics
+-----------------------------------
+MODEL:CNN, SEED:2023, MSE:0.289748, MAE:  0.407196, MSE_SEI: 0.258008, MAE_SEI: 0.454129, MSE_TEMP: 0.321257, MAE_TEMP: 0.360135
+
+Battery Surrogate Model Test Metrics
+-----------------------------------
+MODEL:CNN, SEED:2023, MSE:18.167025, MAE:  3.392772, MSE_SEI: 16.133883, MAE_SEI: 3.452494, MSE_TEMP: 20.200165, MAE_TEMP: 3.333052
+
+Battery Surrogate Model Test Metrics
+-----------------------------------
+MODEL:CNN, SEED:2023, MSE:0.174396, MAE:  0.319934, MSE_SEI: 0.081631, MAE_SEI: 0.188785, MSE_TEMP: 0.267169, MAE_TEMP: 0.451077
+
+Battery Surrogate Model Test Metrics
+-----------------------------------
+MODEL:CNN, SEED:2024, MSE:0.278935, MAE:  0.363377, MSE_SEI: 0.241092, MAE_SEI: 0.376272, MSE_TEMP: 0.316930, MAE_TEMP: 0.350559
+
+Battery Surrogate Model Test Metrics
+-----------------------------------
+MODEL:CNN, SEED:2024, MSE:15.020753, MAE:  3.097380, MSE_SEI: 14.429041, MAE_SEI: 3.267495, MSE_TEMP: 15.612498, MAE_TEMP: 2.927259
+
+Battery Surrogate Model Test Metrics
+-----------------------------------
+MODEL:CNN, SEED:2024, MSE:0.147995, MAE:  0.294066, MSE_SEI: 0.048695, MAE_SEI: 0.151750, MSE_TEMP: 0.247300, MAE_TEMP: 0.436386
+
+Battery Surrogate Model Test Metrics
+-----------------------------------
+MODEL:CNN, SEED:2025, MSE:0.283364, MAE:  0.373991, MSE_SEI: 0.306834, MAE_SEI: 0.427829, MSE_TEMP: 0.259809, MAE_TEMP: 0.320258
+
+Battery Surrogate Model Test Metrics
+-----------------------------------
+MODEL:CNN, SEED:2025, MSE:13.771858, MAE:  2.929330, MSE_SEI: 12.707113, MAE_SEI: 3.001197, MSE_TEMP: 14.836590, MAE_TEMP: 2.857458
+
+Battery Surrogate Model Test Metrics
+-----------------------------------
+MODEL:CNN, SEED:2025, MSE:0.147396, MAE:  0.280550, MSE_SEI: 0.045481, MAE_SEI: 0.161086, MSE_TEMP: 0.249321, MAE_TEMP: 0.400015
+
