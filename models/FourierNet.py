@@ -1,7 +1,6 @@
 import torch
 import torch.nn as nn
 
-
 class Model(nn.Module):
     def __init__(self, configs):
         super(Model, self).__init__()
@@ -22,6 +21,8 @@ class Model(nn.Module):
 
         self.fc = nn.Sequential(
             nn.Linear(self.hidden_size, self.out_features),
+            #nn.Tanh(),
+            #nn.Linear(128, self.out_features)
         )
 
         #self.last_state=torch.zeros(self.num_layers, 1, self.hidden_size)
