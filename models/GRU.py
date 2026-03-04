@@ -6,7 +6,7 @@ class Model(nn.Module):
     def __init__(self, configs):
         super(Model, self).__init__()
 
-        self.input_size = configs.in_features                  # current only
+        self.input_size = configs.in_features
         self.hidden_size = 128
         self.num_layers = 3
         self.out_features = configs.out_features
@@ -24,23 +24,17 @@ class Model(nn.Module):
             nn.Linear(self.hidden_size, self.out_features),
         )
 
-        #self.last_state=torch.zeros(self.num_layers, 1, self.hidden_size)
-
     def forward(self, x):
         """
-        x: (batch, window_size, 1)
+        x: (batch, seq_len, in_features)
+        out: (batch, out_features) - where each column corresponds 
+        to a different target (e.g., SEI Rate, Temperature)
         """
 
-        # GRU output:
-        # out -> (batch, seq_len, hidden_size)
-        # h_n -> (num_layers, batch, hidden_size)
         out, h_n = self.gru(x) #self.last_state
 
         # Use final hidden state of last layer
         final_hidden = h_n[-1]   # (batch, hidden_size)
-        
-        #self.last_state= final_hidden.detach().clone().unsqueeze(0).repeat(self.num_layers, 1, 1)
-
 
         output = self.fc(final_hidden)
 

@@ -38,6 +38,8 @@ class Model(nn.Module):
     def forward(self, x):
         """
         x: (batch, seq_len, in_features)
+        out: (batch, out_features) - where each column corresponds 
+        to a different target (e.g., SEI Rate, Temperature)
         """
 
         # Convert to (batch, channels, seq_len)
@@ -50,6 +52,6 @@ class Model(nn.Module):
             out = head(features)
             outputs.append(out)
 
-        out = torch.cat(outputs, dim=-1)  # (batch, out_features)
+        out = torch.cat(outputs, dim=-1)
 
         return out

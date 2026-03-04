@@ -25,7 +25,11 @@ class Model(nn.Module):
         
 
     def forward(self, x):
-        # x: b, seq_len, in_features
+        """
+        x: (batch, seq_len, in_features)
+        out: (batch, out_features) - where each column corresponds
+        to a different target (e.g., SEI Rate, Temperature)
+        """
 
         outputs = []
         for i in range(self.out_features):

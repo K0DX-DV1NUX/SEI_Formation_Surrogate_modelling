@@ -1,6 +1,11 @@
 import os
+import numpy as np
+import matplotlib.pyplot as plt
 
 def check_and_prepare_dirs(args):
+    """
+    Check if required directories exist and create output directories if they don't.
+    """
 
     # ----------------------------
     # Required input directories
@@ -32,21 +37,13 @@ def check_and_prepare_dirs(args):
             print(f"Created directory: {path}")
 
 
-import os
-import numpy as np
-import matplotlib.pyplot as plt
-
-
 def plot_predictions(preds, targets, plots_dir="plots"):
     """
-    Create 3 separate plots:
+    Create 2 separate plots:
     - Temperature
     - SEI Rate
     Each saved as an individual PNG.
     """
-
-    #os.makedirs(plots_dir, exist_ok=True)
-
     feature_names = [
         "SEI Rate [nm/s]",
         "Temperature [K]",

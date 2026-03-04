@@ -26,17 +26,15 @@ class Model(nn.Module):
 
     def forward(self, x):
         """
-        x: (batch, window_size, in_features)
+        x: (batch, seq_len, in_features)
+        out: (batch, out_features) - where each column corresponds
+        to a different target (e.g., SEI Rate, Temperature)
         """
 
-        # LSTM returns:
-        # out  -> (batch, seq_len, hidden_size)
-        # h_n  -> (num_layers, batch, hidden_size)
-        # c_n  -> (num_layers, batch, hidden_size)
-        out, (h_n, c_n) = self.lstm(x)
+        _, (h_n, _) = self.lstm(x)
 
         # Final hidden state from last layer
-        final_hidden = h_n[-1]   # (batch, hidden_size)
+        final_hidden = h_n[-1]
 
         output = self.fc(final_hidden)
 
