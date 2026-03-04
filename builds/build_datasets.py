@@ -4,11 +4,27 @@ import numpy as np
 
 
 class BatteryDataset(Dataset):
+    """
+    A PyTorch Dataset class for loading and processing battery cycle data for machine learning models. 
+    This class takes a list of processed dataframes (one for each battery cycle) and generates 
+    input-target pairs for training. Each input sequence consists of a window of time steps containing 
+    features such as current, voltage, and cumulative charge, while the target consists of the SEI Rate
+    and Cell Temperature at the end of the sequence.
+
+    The dataset supports variable-length sequences and allows for configurable window sizes and strides to
+    control the generation of samples from the time series data.
+    """
+
     def __init__(self, dataframes, window_size=30, stride=1):
         """
-        dataframes: list of standardized pandas DataFrames
-        window_size: sequence length
-        stride: step size between windows
+        dataframes: list of pandas DataFrames, each containing the processed data for a single battery cycle.
+        window_size: int, the number of time steps in each input sequence.
+        stride: int, the step size for moving the window across the time series.
+
+        The dataset will generate samples of the form (input_seq, target) where:
+        - input_seq: a tensor of shape (window_size, num_features) containing the input
+            features (current, voltage, cumulative charge) for a sequence of time steps.
+        - target: a tensor containing the SEI Rate and Cell Temperature at the end of the sequence.
         """
 
         self.dataframes = dataframes

@@ -2,6 +2,17 @@ import numpy as np
 import json
 
 class Standardizer:
+    """
+    This class computes the mean and standard deviation of the features across all training 
+    dataframes and provides methods to standardize the dataframes and inverse transform the 
+    predictions. The standardization is done using the formula:
+    
+    standardized_value = (value - mean) / (std + 1e-8)
+    
+    The inverse transformation for the targets (SEI Rate and Cell Temperature) is done using 
+    the formula:
+    original_value = standardized_value * std + mean
+    """
 
     def __init__(self):
         self.stats = {}

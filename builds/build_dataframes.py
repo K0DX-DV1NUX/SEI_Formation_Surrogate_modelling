@@ -5,6 +5,17 @@ import matplotlib.pyplot as plt
 from sklearn.cluster import DBSCAN
 
 class BuildDataframes:
+    """
+    
+    This class is responsible for loading CSV files from a specified directory,
+    validating their structure, and transforming the data into a consistent format
+    suitable for machine learning models. It performs the following steps:
+    1. Loads all CSV files from the given directory.
+    2. Validates that each file contains the required columns and that the time column is strictly increasing.
+    3. Converts the "Negative SEI thickness [nm]" column into a rate of change (SEI Rate).
+    4. Adds a cumulative feature "Q_cum" which represents the cumulative absolute current in Ah.
+    5. Stores the processed dataframes in a list for later retrieval.
+    """
 
     REQUIRED_COLUMNS = [
         "Time [s]",
@@ -26,11 +37,13 @@ class BuildDataframes:
 
         self.data_folder = data_folder
         self.dataframes = []
-
         self._load_csv_files()
 
 
     def _load_csv_files(self):
+        """
+        Load all CSV files from the specified directory, validate their structure, and transform the data.
+        """
 
         if not os.path.isdir(self.data_folder):
             raise NotADirectoryError(
@@ -65,6 +78,9 @@ class BuildDataframes:
 
 
     def _validate_columns(self, df, file_name):
+        """"
+        Validate that the dataframe contains all required columns.
+        """
 
         df_columns = list(df.columns)
 
@@ -80,6 +96,9 @@ class BuildDataframes:
 
 
     def _validate_time(self, df, file_name):
+        """
+        Validate that the "Time [s]" column is strictly increasing.
+        """
 
         time = df["Time [s]"].values
 
@@ -90,6 +109,9 @@ class BuildDataframes:
 
 
     def _rate_conversion(self, df):
+        """
+        Convert "Negative SEI thickness [nm]" to a rate of change (SEI Rate).
+        """
 
         df = df.copy()
 
@@ -116,7 +138,7 @@ class BuildDataframes:
 
     def _add_cumulative_features(self, df):
         """
-        Add Q_cum (cumulative absolute current in Ah)
+        Add a cumulative feature "Q_cum" which represents the cumulative absolute current in Ah.
         """
 
         df = df.copy()
@@ -130,10 +152,8 @@ class BuildDataframes:
         # Cumulative current in Ah (absolute value)
         Q_cum = np.cumsum(np.abs(current) * dt_hours)
         
-
         df["Q_cum"] = np.sqrt(Q_cum + 1e-12)  # Add small constant to avoid sqrt of zero
         
-
         return df
 
     def get_dataframes(self):
@@ -143,7 +163,6 @@ class BuildDataframes:
 if __name__ == "__main__":
     builder = BuildDataframes("Experiments/test")
     dfs = builder.get_dataframes()
-
     sei_rates = [df["SEI Rate"].values for df in dfs]
     plt.figure(figsize=(10, 6))
     for i, sei_rate in enumerate(sei_rates):
