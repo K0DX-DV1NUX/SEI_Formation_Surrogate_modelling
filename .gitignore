@@ -206,7 +206,7 @@ marimo/_static/
 marimo/_lsp/
 __marimo__/
 
-Experiments/*.csv
+Experiments/
 Experiments/train/*.csv
 Experiments/test/*.csv
 Experiments/vali/*.csv
@@ -220,3 +220,4 @@ results/
 .vscode/*
 
 results.txt
+
