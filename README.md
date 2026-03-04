@@ -32,7 +32,9 @@ pip install -r requirements.txt
 ├── Experiments/                 # Dataset directories
 │   ├── train/                  # Training data
 │   ├── vali/                   # Validation data
-│   └── test/                   # Test data
+│   ├── test1/                   # Keep 1 Test data (Multi-stage)
+│   ├── test2/                   # Keep 1 Test data (Fast)
+│   └── test3/                   # keep 1 Test data (Slow)
 ├── exp.py                       # Main experiment class
 ├── run_exp.py                   # Entry point script
 └── Dataset_generation.ipynb    # Notebook for data generation
