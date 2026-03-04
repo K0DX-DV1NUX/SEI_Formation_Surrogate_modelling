@@ -6,7 +6,6 @@ import numpy as np
 import copy
 import os
 from sklearn.metrics import mean_squared_error, mean_absolute_error
-import matplotlib.pyplot as plt
 
 from builds.build_dataframes import BuildDataframes
 from builds.build_datasets import BatteryDataset
@@ -14,13 +13,19 @@ from builds.standardization import Standardizer
 from models import GRU, LSTM, MLP, CNN
 
 class Exp:
+    """
+    This class encapsulates the entire experiment pipeline for training and 
+    evaluating a surrogate model for battery SEI formation. It handles data 
+    loading, preprocessing, model training, validation, testing, and results 
+    saving. The class is designed to be flexible and configurable through 
+    command-line arguments, allowing users to easily switch between different 
+    models, datasets, and hyperparameters.
+    """
 
     def __init__(self, configs, checkpoint_dir="checkpoints"):
 
         self.configs = configs
         self.device = torch.device(configs.device)
-        #self.checkpoint_dir = checkpoint_dir
-        #os.makedirs(self.checkpoint_dir, exist_ok=True)
 
         if self.configs.mode != "test":
 
@@ -209,25 +214,6 @@ class Exp:
             if self.patience_counter >= self.configs.patience:
                 print("Early stopping triggered.")
                 break
-
-        # -------------------------
-        # Load best model
-        # -------------------------
-        # self.model.load_state_dict(torch.load(f"{self.configs.checkpoint_dir}\
-        #                                       /best_model_{self.configs.model}.pt"))
-
-        # -------------------------
-        # Evaluate on test set
-        # -------------------------
-        #preds, targets = self.test()  # already inverse transformed
-        #self.write_results(preds, targets)
-        # flatten if needed (batch, features)
-        # preds_flat = preds.reshape(-1, preds.shape[-1])
-        # targets_flat = targets.reshape(-1, targets.shape[-1])
-
-        
-
-
 
     # =========================
     # Single Train Epoch

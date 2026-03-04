@@ -8,7 +8,6 @@ import os
 import random
 import numpy as np
 from utils.utilities import check_and_prepare_dirs, plot_predictions
-from sklearn.cluster import DBSCAN
 
 parser = argparse.ArgumentParser(description="Battery Surrogate Experiment Runner")
 
@@ -18,11 +17,8 @@ parser = argparse.ArgumentParser(description="Battery Surrogate Experiment Runne
 parser.add_argument("--mode", type=str, default="train",
                     choices=["train", "test"],
                     help="Run mode: train or test")
-#parser.add_argument("--test_standardize_path", type=str, default="", help="If test mode, need to provide data standardization json file.")
 parser.add_argument("--test_model_folder", type=str, default="", help="If test mode, need to provide model.pt location.")
 
-#parser.add_argument("--checkpoint", type=str, default=None,
-#                    help="Path to checkpoint to load for testing")
 
 # ---------------------------
 # Folder paths
@@ -65,10 +61,6 @@ if torch.cuda.is_available():
 print("Running with configuration:")
 print(configs)
 
-# Perform DBSCAN clustering on training data to create state_charge feature
-
-
-
 settings = f"{configs.model}_{configs.seed}"
 configs.checkpoints_dir = f"{configs.checkpoints_dir}/{settings}"
 configs.results_dir = f"{configs.results_dir}/{settings}"
@@ -76,10 +68,6 @@ configs.plots_dir = f"{configs.plots_dir}/{settings}"
 
 # Check and prepare directories
 check_and_prepare_dirs(configs)
-
-
-
-
 
 # ---------------------------
 # Run training or testing
