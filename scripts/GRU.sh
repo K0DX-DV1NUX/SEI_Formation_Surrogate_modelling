@@ -49,8 +49,3 @@ run_experiment test test3 2024
 run_experiment train test1 2025
 run_experiment test test2 2025
 run_experiment test test3 2025
-
-# run_experiment train test2 2022
-# run_experiment train test3 2023
-# run_experiment train test4 2024
-# run_experiment train test5 2025
